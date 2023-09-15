@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.mundoinformatico.modelo.ActivoDat;
 import com.mundoinformatico.modelo.Contacto;
@@ -48,8 +49,9 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		 *
 		 * probarActivo(); // 👈exito!!👍 
 		 * guardarActivo() // 👈exito!!👍   
-		 * System.out.println("Reg Activo #7="+buscarActivoPorId(7) );
-		 */  
+		 * System.out.println("Reg Activo #7="+buscarActivoPorId(7) );   // 👍 
+		 * System.out.println("Reg Ubicacion x cod="+buscarUbicacionCod("OFIC-MNT-PROD") );  // 👍
+		 * */   
 	}
 
 	private void probarEmpleado() {
@@ -143,5 +145,14 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		}
 		return null;	
 	}  // buscarActivoPorId(). 
+	
+	private UbicacionDat buscarUbicacionCod( @PathVariable String codigo_ubic ) {
+		Optional<UbicacionDat> o = ubicacionRepo.findById(codigo_ubic);
+		if ( o.isPresent() ) {
+			//System.out.println("Buscar activo id="+id+"**Encontrado***"); 
+			return o.get();
+		}
+		return null;
+	} // buscarUbicacionCod(). 
 	
 }

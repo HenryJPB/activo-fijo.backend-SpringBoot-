@@ -1,6 +1,7 @@
 package com.mundoinformatico.controlador;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mundoInformatico.Empleado;
 import com.mundoInformatico.excepciones.ResourceNotFoundException;
+import com.mundoinformatico.modelo.ActivoDat;
 import com.mundoinformatico.modelo.UbicacionDat;
 import com.mundoinformatico.repositorio.UbicacionRepositorio;
 
@@ -37,6 +39,17 @@ public class UbicacionControlador {
 		clave="%"+clave+"%";  
 		return ubicacionRepo.getUbicacionesLike(clave);   
 	}
+	
+	//----------------------------------------------------------------------
+	@GetMapping("/ubicaciones/buscar/{codigo_ubic}")
+	private UbicacionDat buscarUbicacionCod( @PathVariable String codigo_ubic ) {
+		Optional<UbicacionDat> o = ubicacionRepo.findById(codigo_ubic);
+		if ( o.isPresent() ) {
+			//System.out.println("Buscar activo id="+id+"**Encontrado***"); 
+			return o.get();
+		}
+		return null;
+	} // buscarUbicacionCod(). 
 	
 	// Sujeto a revision???
 	// Error: org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save():
