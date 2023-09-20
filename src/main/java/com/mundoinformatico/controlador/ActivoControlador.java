@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,9 +35,11 @@ public class ActivoControlador {
 	//http://localhost:8090/activos/listar 
 	//@RequestMapping (value="/listar", method = RequestMethod. GET)
 	private List<ActivoDat> listarActivos() {
-		return activoRepo.findAll();    
+		// return activoRepo.findAll( sortByDescripcionAsc() );   // Sujeto a revision!!
+		return activoRepo.findAllByOrderByDescripcionAsc();       // Check repositorio.   
 	} 
 	
+	//------------------------------------------------------------------------------
 	@GetMapping("/activos/like/{clave}") 
 	private List<ActivoDat> listarActivosLike( @PathVariable String clave  ) {
 		//System.out.println("Aquica en 'listarActivosLike()'. Clave="+clave+"********");

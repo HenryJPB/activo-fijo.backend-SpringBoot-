@@ -30,7 +30,8 @@ public class UbicacionControlador {
 	
 	@GetMapping("/ubicaciones")
 	private List<UbicacionDat> listarUbicaciones() {
-		return ubicacionRepo.findAll();  
+		//return ubicacionRepo.findAll();
+		return ubicacionRepo.findAllByOrderByDescripcionAsc(); // Query methods. 👍
 	}
 	
 	@GetMapping("/ubicaciones/like/{clave}")

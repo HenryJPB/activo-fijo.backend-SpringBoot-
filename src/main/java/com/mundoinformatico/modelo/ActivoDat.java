@@ -42,7 +42,7 @@ public class ActivoDat {
 
 	private String serial;
 
-	private Byte vida_util;
+	private Integer vida_util;
 
 	private Float valor_inicial;
 
@@ -67,7 +67,7 @@ public class ActivoDat {
 	}
 
 	public ActivoDat(Integer id, String codigo_activo, String descripcion, UbicacionDat ubicacionDat, byte[] imagen,
-			String nroCompra, String marca, String modelo, String serial, Byte vida_util, Float valor_inicial,
+			String nroCompra, String marca, String modelo, String serial, Integer vida_util, Float valor_inicial,
 			Float valor_rescate, Float valor_libro, Float depre_anual, Float depre_acum, String observacion,
 			Byte desincorporado) {
 		super();
@@ -162,11 +162,11 @@ public class ActivoDat {
 		this.serial = serial;
 	}
 
-	public Byte getVida_util() {
+	public Integer getVida_util() {
 		return vida_util;
 	}
 
-	public void setVida_util(Byte vida_util) {
+	public void setVida_util(Integer vida_util) {
 		this.vida_util = vida_util;
 	}
 
@@ -235,5 +235,5 @@ public class ActivoDat {
 				+ valor_libro + ", depre_anual=" + depre_anual + ", depre_acum=" + depre_acum + ", observacion="
 				+ observacion + ", desincorporado=" + desincorporado + "]";
 	}
-	
+		
 }

@@ -11,10 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.mundoinformatico.modelo.ActivoDat;
+import com.mundoinformatico.modelo.AdicionDat;
 import com.mundoinformatico.modelo.Contacto;
 import com.mundoinformatico.modelo.Empleado;
 import com.mundoinformatico.modelo.UbicacionDat;
 import com.mundoinformatico.repositorio.ActivoRepositorio;
+import com.mundoinformatico.repositorio.AdicionRepositorio;
 import com.mundoinformatico.repositorio.ContactoRepositorio;
 import com.mundoinformatico.repositorio.EmpleadoRepositorio;
 import com.mundoinformatico.repositorio.UbicacionRepositorio;
@@ -34,6 +36,9 @@ public class ActivoFijoApplication implements CommandLineRunner {
 	@Autowired
 	private ActivoRepositorio activoRepo;
 
+	@Autowired
+	private AdicionRepositorio adicionRepo;  
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ActivoFijoApplication.class, args);
 	}
@@ -52,6 +57,7 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		 * System.out.println("Reg Activo #7="+buscarActivoPorId(7) );   // 👍 
 		 * System.out.println("Reg Ubicacion x cod="+buscarUbicacionCod("OFIC-MNT-PROD") );  // 👍
 		 * */   
+		// probarAdiciones();  // 👍  
 	}
 
 	private void probarEmpleado() {
@@ -87,7 +93,8 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		// TODO Auto-generated method stub
 		// List<ActivoDat> lista = activoRepo.findAll();  // 👍
 		// List<ActivoDat> lista = activoRepo.findByCodigoActivoLike("%SERVER%");   // 👍
-		List<ActivoDat> lista = activoRepo.getActivosLike("%VEN%");    // 👍   
+		// List<ActivoDat> lista = activoRepo.getActivosLike("%VEN%");         // 👍 
+		List<ActivoDat> lista = activoRepo.findAllByOrderByDescripcionAsc();   // 👍 
 		System.out.println("*RESULTADO (query ActivoDat)*:");
 		System.out.println("*Total registro de la tabla=" + lista.size());
 		System.out.println("=================================");
@@ -120,15 +127,18 @@ public class ActivoFijoApplication implements CommandLineRunner {
 	    Float depre_acum = (float) 777.0;  
 	    String observacion = "PC de PRUEBA, COLOR: negro, c/DVD.";  
 	    Byte desincorporado = 0;  
+	    /* OLD
 		ActivoDat a = new ActivoDat(id,codigo_activo, descripcion ,ubicacion, imagen, nro_compra, 
 			      marca, modelo, serial, vida_util, valor_inicial, valor_rescate, valor_libro, depre_anual, 
 			      depre_acum, observacion, desincorporado );
+		*/   
 		/*
 		ActivoDat(String codigoActivo, String descripcion, UbicacionDat ubicacionDat, byte[] imagen,
 				String nroCompra, String marca, String modelo, String serial, Byte vidaUtil, Float valorInicial,
 				Float valorRescate, Float valorLibro, Float depreAnual, Float depreAcum, String observacion,
 				Byte desincorporado) {
 		*/ 
+	    ActivoDat a = new ActivoDat();  
 		activoRepo.save(a);  
 		System.out.println("registro 👇");
 		System.out.println( a );
@@ -154,5 +164,19 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		}
 		return null;
 	} // buscarUbicacionCod(). 
+	
+	private void probarAdiciones() {
+		// TODO Auto-generated method stub
+		// List<ActivoDat> lista = activoRepo.findAll();  // 👍
+		// List<ActivoDat> lista = activoRepo.findByCodigoActivoLike("%SERVER%");   // 👍
+		// List<ActivoDat> lista = activoRepo.getActivosLike("%VEN%");         // 👍 
+		//List<AdicionDat> lista = adicionRepo.findAllBycodigo_activo("HP9000"); 
+		List<AdicionDat> lista = adicionRepo.getTodosByCodActivosEs( "HP9000" ); 
+		System.out.println("*RESULTADO (query AdicionDat)*:");
+		System.out.println("*Total registro de la tabla=" + lista.size());
+		System.out.println("=================================");
+		lista.forEach(System.out::println); // https://www.delftstack.com/es/howto/java/print-list-java/
+		System.out.println("*================================");
+	}
 	
 }
