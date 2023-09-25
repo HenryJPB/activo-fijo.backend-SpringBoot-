@@ -57,7 +57,7 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		 * System.out.println("Reg Activo #7="+buscarActivoPorId(7) );   // 👍 
 		 * System.out.println("Reg Ubicacion x cod="+buscarUbicacionCod("OFIC-MNT-PROD") );  // 👍
 		 * */   
-		// probarAdiciones();  // 👍  
+		 //probarAdiciones();  // 👍  
 	}
 
 	private void probarEmpleado() {
@@ -171,11 +171,18 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		// List<ActivoDat> lista = activoRepo.findByCodigoActivoLike("%SERVER%");   // 👍
 		// List<ActivoDat> lista = activoRepo.getActivosLike("%VEN%");         // 👍 
 		//List<AdicionDat> lista = adicionRepo.findAllBycodigo_activo("HP9000"); 
-		List<AdicionDat> lista = adicionRepo.getTodosByCodActivosEs( "HP9000" ); 
-		System.out.println("*RESULTADO (query AdicionDat)*:");
+		List<AdicionDat> lista = adicionRepo.getTodosByCodActivosEquals( "HP9000" ); 
+		System.out.println("*RESULTADO I:(query AdicionDat)*:");
 		System.out.println("*Total registro de la tabla=" + lista.size());
 		System.out.println("=================================");
 		lista.forEach(System.out::println); // https://www.delftstack.com/es/howto/java/print-list-java/
+		System.out.println("*================================");
+		
+		AdicionDat a = adicionRepo.getAdicionByCodigoActivoAndIdEquals("HP9000",5);    
+		System.out.println("*RESULTADO II:(query AdicionDat)*:");
+		System.out.println("=================================");
+		//lista.forEach(System.out::println); // https://www.delftstack.com/es/howto/java/print-list-java/
+		
 		System.out.println("*================================");
 	}
 	

@@ -20,4 +20,6 @@ public interface ActivoRepositorio extends JpaRepository<ActivoDat, Integer> {
 	
 	List<ActivoDat> findAllByOrderByDescripcionAsc(); // Query methods. 👍
 	
+	@Query(value="SELECT * FROM activo_dat WHERE codigo_activo = ?",nativeQuery = true)   // 
+	ActivoDat getActivoPorCodigoActivo( String codigo_activo ); 
 }
