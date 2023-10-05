@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mundoinformatico.modelo.ActivoDat;
 import com.mundoinformatico.modelo.UbicacionDat;
 import com.mundoinformatico.repositorio.ActivoRepositorio;
+import com.mundoinformatico.repositorio.AdicionRepositorio;
 
 @RestController
 @RequestMapping("/api")
@@ -26,7 +27,10 @@ import com.mundoinformatico.repositorio.ActivoRepositorio;
 public class ActivoControlador {
 	
 	@Autowired
-	private ActivoRepositorio activoRepo;  
+	private ActivoRepositorio activoRepo; 
+	
+	@Autowired
+	private AdicionRepositorio adicionRepo;   
 	
 	@GetMapping("/activos")
 	//http://localhost:8090/activos/listar 
@@ -95,8 +99,12 @@ public class ActivoControlador {
 		if ( activo == null ) {
 			System.out.println( "No existe el Activo con el ID : " + id);  
 		} else {
-			activoRepo.delete(activo);  
-			respuesta.put("eliminar",Boolean.TRUE);
+			if ( adicionRepo.getTodosByCodActivoEquals( activo.getCodigo_activo() ).size() <= 0 ) {
+				activoRepo.delete(activo);  
+			    respuesta.put("eliminar",Boolean.TRUE);
+			} else {
+				System.out.println("Eliminacion *NO* procede porque este activo posee Adiciones / Mejoras."); 
+			} // if-else 	
 		}
 		return ResponseEntity.ok(respuesta);
     }  // org.springframework.http.ResponseEntity<Map<String, Boolean>>();    

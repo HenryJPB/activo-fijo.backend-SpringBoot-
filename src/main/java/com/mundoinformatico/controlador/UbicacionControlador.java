@@ -1,11 +1,14 @@
 package com.mundoinformatico.controlador;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,16 +17,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mundoInformatico.Empleado;
-import com.mundoInformatico.excepciones.ResourceNotFoundException;
-import com.mundoinformatico.modelo.ActivoDat;
 import com.mundoinformatico.modelo.UbicacionDat;
+import com.mundoinformatico.repositorio.ActivoRepositorio;
 import com.mundoinformatico.repositorio.UbicacionRepositorio;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins="http://localhost:4200/")
 public class UbicacionControlador {
+	
+	@Autowired
+	private ActivoRepositorio activoRepo;  
 	
 	@Autowired
 	private UbicacionRepositorio ubicacionRepo; 
@@ -54,14 +58,13 @@ public class UbicacionControlador {
 	
 	// Sujeto a revision???
 	// Error: org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save():
-	@PostMapping("/ubicaciones/{id}")
-	public UbicacionDat guardarUbicacion(@PathVariable String id, @RequestBody UbicacionDat ubicacion ) {
-		System.out.println("****Guardar ubicacion desde remoto*****"); 
+	@PostMapping("/ubicaciones")
+	public UbicacionDat guardar(@RequestBody UbicacionDat ubicacion ) {
+		//System.out.println("****Guardar ubicacion desde remoto*****"); 
 		//System.out.println("id="+id+"*****"); 
-		System.out.println( ubicacion );  // 👉 UbicacionDat [codigoUbic=null, descripcion=OFICINA DE PRUEBA] 
+		//System.out.println( ubicacion );  // 👉 UbicacionDat [codigoUbic=null, descripcion=OFICINA DE PRUEBA] 
 		//return ResponseEntity.ok(true);   
 		//ubicacion.setCodigo_ubic(id);       
-		//System.out.println( ubicacion );
 		return ubicacionRepo.save(ubicacion);
 		//return null;
 	}
@@ -82,4 +85,28 @@ public class UbicacionControlador {
 		return ResponseEntity.ok(uActualizado);   
 	}
 
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// Metodo eliminar.   
+	// https://github.com/ChristianRaulRamirez/Spring-Backend/blob/master/gestion-empleados-backend/src/main/java/com/gestion/empleados/controlador/EmpleadoControlador.java
+	// Adaptado x el master HJPB 
+	//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	@DeleteMapping("/ubicaciones/{codigo}")
+	private ResponseEntity<Map<String,Boolean>> eliminar(@PathVariable() String codigo) {
+		Map<String, Boolean> respuesta = new HashMap<>();
+		respuesta.put("eliminar",Boolean.FALSE);
+		UbicacionDat ubicacion = buscarUbicacionCod( codigo ); 
+		if ( ubicacion == null ) {
+			System.out.println( "No existe la Ubicacion con el Codigo ubic = " + codigo);  
+		} else {
+			if ( activoRepo.getActivoPorCodigoUbic(codigo).size() <= 0 ) {
+				System.out.println("ATENCION!: No hay activos con Ubic='"+codigo+" - procede la eliminacion.");
+				ubicacionRepo.delete(ubicacion);    
+				respuesta.put("eliminar",Boolean.TRUE);
+			} else {
+				System.out.println("ATENCION!: *HAY* activos con Ubic='"+codigo+"'");	
+			}
+		}
+		return ResponseEntity.ok(respuesta);
+    }  // org.springframework.http.ResponseEntity<Map<String, Boolean>>();    
+	
 }

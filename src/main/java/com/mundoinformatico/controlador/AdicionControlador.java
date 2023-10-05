@@ -33,7 +33,7 @@ public class AdicionControlador {
 	private List<AdicionDat> getAdiciones( @PathVariable("codigo_activo") String codigo_activo ) { 
 		//return adicionRepo.findAllBycodigo_activo(codigo_activo);  // check Query Methods.
 		Sort sortByFecha = Sort.by(Sort.Direction.DESC, "fecha");
-		return adicionRepo.getTodosByCodActivosEquals( codigo_activo );     
+		return adicionRepo.getTodosByCodActivoEquals( codigo_activo );     
 	}  // getAdiciones(). 
 
 	@GetMapping("/adiciones/buscar/{codigo_activo}/{id}")

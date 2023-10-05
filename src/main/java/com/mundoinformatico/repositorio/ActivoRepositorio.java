@@ -22,4 +22,7 @@ public interface ActivoRepositorio extends JpaRepository<ActivoDat, Integer> {
 	
 	@Query(value="SELECT * FROM activo_dat WHERE codigo_activo = ?",nativeQuery = true)   // 
 	ActivoDat getActivoPorCodigoActivo( String codigo_activo ); 
+	
+	@Query(value="SELECT * FROM activo_dat WHERE codigo_ubic = ?",nativeQuery = true)   // 
+	List<ActivoDat> getActivoPorCodigoUbic( String codigo_ubic ); 
 }

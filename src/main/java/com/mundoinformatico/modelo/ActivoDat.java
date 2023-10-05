@@ -22,6 +22,9 @@ public class ActivoDat {
 	
 	@Column(length = 15)
 	private String codigo_activo;
+	
+	@Column( length = 40 ) 
+	private String grupo;   
 
 	@Column(length = 100)
 	private String descripcion;
@@ -60,19 +63,18 @@ public class ActivoDat {
 	// activo-fijo.frontend de mi proyecto Angular.
 	private Byte desincorporado;
 
-	//============================================================================================
-	
 	public ActivoDat() {
 		super();
 	}
 
-	public ActivoDat(Integer id, String codigo_activo, String descripcion, UbicacionDat ubicacionDat, byte[] imagen,
-			String nroCompra, String marca, String modelo, String serial, Integer vida_util, Float valor_inicial,
-			Float valor_rescate, Float valor_libro, Float depre_anual, Float depre_acum, String observacion,
-			Byte desincorporado) {
+	public ActivoDat(Integer id, String codigo_activo, String grupo, String descripcion, UbicacionDat ubicacionDat,
+			byte[] imagen, String nroCompra, String marca, String modelo, String serial, Integer vida_util,
+			Float valor_inicial, Float valor_rescate, Float valor_libro, Float depre_anual, Float depre_acum,
+			String observacion, Byte desincorporado) {
 		super();
 		this.id = id;
 		this.codigo_activo = codigo_activo;
+		this.grupo = grupo;
 		this.descripcion = descripcion;
 		this.ubicacionDat = ubicacionDat;
 		this.imagen = imagen;
@@ -104,6 +106,14 @@ public class ActivoDat {
 
 	public void setCodigo_activo(String codigo_activo) {
 		this.codigo_activo = codigo_activo;
+	}
+
+	public String getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(String grupo) {
+		this.grupo = grupo;
 	}
 
 	public String getDescripcion() {
@@ -228,12 +238,13 @@ public class ActivoDat {
 
 	@Override
 	public String toString() {
-		return "ActivoDat [id=" + id + ", codigo_activo=" + codigo_activo + ", descripcion=" + descripcion
-				+ ", ubicacionDat=" + ubicacionDat + ", imagen=" + Arrays.toString(imagen) + ", nroCompra=" + nroCompra
-				+ ", marca=" + marca + ", modelo=" + modelo + ", serial=" + serial + ", vida_util=" + vida_util
-				+ ", valor_inicial=" + valor_inicial + ", valor_rescate=" + valor_rescate + ", valor_libro="
-				+ valor_libro + ", depre_anual=" + depre_anual + ", depre_acum=" + depre_acum + ", observacion="
-				+ observacion + ", desincorporado=" + desincorporado + "]";
+		return "ActivoDat [id=" + id + ", codigo_activo=" + codigo_activo + ", grupo=" + grupo + ", descripcion="
+				+ descripcion + ", ubicacionDat=" + ubicacionDat + ", imagen=" + Arrays.toString(imagen)
+				+ ", nroCompra=" + nroCompra + ", marca=" + marca + ", modelo=" + modelo + ", serial=" + serial
+				+ ", vida_util=" + vida_util + ", valor_inicial=" + valor_inicial + ", valor_rescate=" + valor_rescate
+				+ ", valor_libro=" + valor_libro + ", depre_anual=" + depre_anual + ", depre_acum=" + depre_acum
+				+ ", observacion=" + observacion + ", desincorporado=" + desincorporado + "]";
 	}
-		
+	
+	
 }

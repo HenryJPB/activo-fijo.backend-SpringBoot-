@@ -19,7 +19,7 @@ public interface AdicionRepositorio extends JpaRepository<AdicionDat, Integer> {
 	// NOTA: se desacivo el join de las tablas 'adicion_dat' -> 'activo_dat' para satisfacer el sig Query method:
 	// Autor: HJPB:  
 	@Query(value="SELECT * FROM adicion_dat WHERE codigo_activo = ?1 ORDER BY fecha,id",nativeQuery = true)       //
-	List<AdicionDat> getTodosByCodActivosEquals( String codigoActivo );
+	List<AdicionDat> getTodosByCodActivoEquals( String codigoActivo );
 	//List<AdicionDat> getTodosByCodActivosEquals( String codigoActivo, Sort sort );  // ERROR: Unsatisfied dependency expressed through field 'adicionRepo': Error creating bean with name 'adicionRepositorio'; Reason: Cannot use native queries with dynamic sorting in method public  
 	 
 	//List<AdicionDat> findAllByCodigo_activo(String codigo_activo );   // Error: No property 'codigoActivo' found for type 'AdicionDat'; Did you mean 'codigo_activo'

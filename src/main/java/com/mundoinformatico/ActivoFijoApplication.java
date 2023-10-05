@@ -8,17 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.mundoinformatico.modelo.ActivoDat;
 import com.mundoinformatico.modelo.AdicionDat;
 import com.mundoinformatico.modelo.Contacto;
 import com.mundoinformatico.modelo.Empleado;
+import com.mundoinformatico.modelo.GrupoDat;
 import com.mundoinformatico.modelo.UbicacionDat;
 import com.mundoinformatico.repositorio.ActivoRepositorio;
 import com.mundoinformatico.repositorio.AdicionRepositorio;
 import com.mundoinformatico.repositorio.ContactoRepositorio;
 import com.mundoinformatico.repositorio.EmpleadoRepositorio;
+import com.mundoinformatico.repositorio.GrupoRepositorio;
 import com.mundoinformatico.repositorio.UbicacionRepositorio;
 
 @SpringBootApplication
@@ -39,6 +42,9 @@ public class ActivoFijoApplication implements CommandLineRunner {
 	@Autowired
 	private AdicionRepositorio adicionRepo;  
 	
+	@Autowired
+	private GrupoRepositorio grupoRepo;   
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ActivoFijoApplication.class, args);
 	}
@@ -57,7 +63,10 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		 * System.out.println("Reg Activo #7="+buscarActivoPorId(7) );   // 👍 
 		 * System.out.println("Reg Ubicacion x cod="+buscarUbicacionCod("OFIC-MNT-PROD") );  // 👍
 		 * */   
-		 //probarAdiciones();  // 👍  
+		 // probarAdiciones();  // 👍  
+		 // probarGrupoActivos();  // 👈exito!!👍   
+		 // pruebaBuscarUbicPorExample(); // Sujeto a revision 😞
+		 // pruebaBuscarPorCodigoUbic();  // 👈exito!!👍
 	}
 
 	private void probarEmpleado() {
@@ -171,7 +180,7 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		// List<ActivoDat> lista = activoRepo.findByCodigoActivoLike("%SERVER%");   // 👍
 		// List<ActivoDat> lista = activoRepo.getActivosLike("%VEN%");         // 👍 
 		//List<AdicionDat> lista = adicionRepo.findAllBycodigo_activo("HP9000"); 
-		List<AdicionDat> lista = adicionRepo.getTodosByCodActivosEquals( "HP9000" ); 
+		List<AdicionDat> lista = adicionRepo.getTodosByCodActivoEquals( "HP9000" ); 
 		System.out.println("*RESULTADO I:(query AdicionDat)*:");
 		System.out.println("*Total registro de la tabla=" + lista.size());
 		System.out.println("=================================");
@@ -186,4 +195,42 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		System.out.println("*================================");
 	}
 	
+	private void probarGrupoActivos() {
+		List<GrupoDat> lista = grupoRepo.findAll();   
+		System.out.println("*RESULTADO I:(query GrupoDat)*:");
+		System.out.println("*Total registro de la tabla=" + lista.size());
+		System.out.println("=================================");
+		lista.forEach(System.out::println); // https://www.delftstack.com/es/howto/java/print-list-java/
+		System.out.println("*================================");
+	}
+	
+	// Sujeto a revision!!!!
+	private List<ActivoDat> buscarUbicPorExample( String ubicacion ) {
+		ActivoDat e = new ActivoDat();
+		e.setUbicacionDat(new UbicacionDat(ubicacion,"") );
+		Example<ActivoDat> example = Example.of(e); 
+		List<ActivoDat> lista = activoRepo.findAll(example);  
+		lista.forEach(System.out::println); 
+		System.out.println("*Total registro de la tabla=" + lista.size());    
+		return lista;   
+	}  // buscarUbicPorExample().   
+	
+	private void pruebaBuscarUbicPorExample() {
+		String e = "INFORMATICA";  
+		if ( buscarUbicPorExample( e ).size() <= 0  ) {
+			System.out.println("OJO!! No hay activos con Ubic='"+e+"'");  
+		} else {
+			System.out.println("OJO!! HAY activos con Ubic='"+e+"'");
+		}
+	} // pruebaBuscarUbicPorExample() 
+	
+	private void pruebaBuscarPorCodigoUbic() {
+		String u = "VENTAS"; 
+		if ( activoRepo.getActivoPorCodigoUbic(u).size() <= 0 ) {
+			System.out.println("OJO!! No hay activos con Ubic='"+u+"'");
+		} else {
+			System.out.println("OJO!! *HAY* activos con Ubic='"+u+"'");
+		}
+	}  // pruebaBuscarPorCodigoUbic() 
+
 }
