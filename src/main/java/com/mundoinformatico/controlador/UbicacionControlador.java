@@ -23,7 +23,9 @@ import com.mundoinformatico.repositorio.UbicacionRepositorio;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins="http://localhost:4200/")
+//@CrossOrigin(origins="http://localhost:4200/")
+//@CrossOrigin(origins="http://desica.gestion-act-fijos:4200/")
+@CrossOrigin(origins = "*")  // https://www.arquitecturajava.com/spring-rest-cors-y-su-configuracion/
 public class UbicacionControlador {
 	
 	@Autowired

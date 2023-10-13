@@ -23,7 +23,9 @@ import com.mundoinformatico.repositorio.AdicionRepositorio;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins="http://localhost:4200/")
+//@CrossOrigin(origins="http://localhost:4200/")
+//@CrossOrigin(origins="http://desica.gestion-act-fijos:4200/") 
+@CrossOrigin(origins = "*")  // https://www.arquitecturajava.com/spring-rest-cors-y-su-configuracion/ 
 public class ActivoControlador {
 	
 	@Autowired
@@ -34,6 +36,7 @@ public class ActivoControlador {
 	
 	@GetMapping("/activos")
 	//http://localhost:8090/activos/listar 
+	// http://desica.gestion-act-fijos:8090/api/activos (ejemplo)   
 	//@RequestMapping (value="/listar", method = RequestMethod. GET)
 	private List<ActivoDat> listarActivos() {
 		// return activoRepo.findAll( sortByDescripcionAsc() );   // Sujeto a revision!!
