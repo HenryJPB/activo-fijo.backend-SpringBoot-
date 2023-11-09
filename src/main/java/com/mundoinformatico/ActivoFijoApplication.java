@@ -67,6 +67,7 @@ public class ActivoFijoApplication implements CommandLineRunner {
 		 // probarGrupoActivos();  // 👈exito!!👍   
 		 // pruebaBuscarUbicPorExample(); // Sujeto a revision 😞
 		 // pruebaBuscarPorCodigoUbic();  // 👈exito!!👍
+		 // pruebaGoRegistro();   // 👈exito!!👍	 
 	}
 
 	private void probarEmpleado() {
@@ -232,5 +233,16 @@ public class ActivoFijoApplication implements CommandLineRunner {
 			System.out.println("OJO!! *HAY* activos con Ubic='"+u+"'");
 		}
 	}  // pruebaBuscarPorCodigoUbic() 
+	
+	private void pruebaGoRegistro() {
+		final Integer REG = 1;  
+		
+		System.out.println("1er reg de 'activo_dat'="+activoRepo.getPrimero());
+		
+		System.out.println( "Previo reg a "+REG+" de 'activo_dat'="+activoRepo.getPrevio(REG) );  
+		System.out.println( "Next reg de "+REG+" de 'activo_dat'="+activoRepo.getProximo(REG));
+		
+		System.out.println("Ultimo reg de 'activo_dat'="+activoRepo.getFinal());
+	} // pruebGoRegistro() 
 
 }

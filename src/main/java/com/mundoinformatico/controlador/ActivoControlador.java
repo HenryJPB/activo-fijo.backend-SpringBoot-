@@ -51,6 +51,30 @@ public class ActivoControlador {
 		return activoRepo.getActivosLike(clave);  
 	}
 	
+	//------------------------------------------------------------------------------
+	@GetMapping("/activos/getPrimero")
+	private Integer getPrimero() {
+		return activoRepo.getPrimero();   
+	}
+	
+	//------------------------------------------------------------------------------
+	@GetMapping("/activos/getPrevio/{previo}")
+	private Integer getPrevio( @PathVariable("previo") Integer previo ) {
+		return activoRepo.getPrevio(previo);   
+	}
+	
+	//------------------------------------------------------------------------------
+    @GetMapping("/activos/getProximo/{proximo}")
+    private Integer getProximo( @PathVariable("proximo") Integer proximo ) {
+		return activoRepo.getProximo(proximo);   
+	}
+    
+	//------------------------------------------------------------------------------
+	@GetMapping("/activos/getFinal")
+	private Integer getUltimo() {
+		return activoRepo.getFinal();    
+	}
+	
 	//-----------------------------------------------------------------------
 	// Utilizaremos un @RequestBody - siginifica q los Clientes
 	// pueden enviar solicitud de servicio en formato 'json' dentro del cuerpo

@@ -24,5 +24,18 @@ public interface ActivoRepositorio extends JpaRepository<ActivoDat, Integer> {
 	ActivoDat getActivoPorCodigoActivo( String codigo_activo ); 
 	
 	@Query(value="SELECT * FROM activo_dat WHERE codigo_ubic = ?",nativeQuery = true)   // 
-	List<ActivoDat> getActivoPorCodigoUbic( String codigo_ubic ); 
+	List<ActivoDat> getActivoPorCodigoUbic( String codigo_ubic );
+	
+	@Query(value="SELECT Min( id ) FROM activo_dat",nativeQuery = true) 
+	Integer getPrimero();
+	
+	@Query(value="SELECT id FROM activo_dat WHERE id < ?1 ORDER BY id DESC LIMIT 1",nativeQuery = true)
+	Integer getPrevio(Integer previo );   	
+
+	@Query(value="SELECT id FROM activo_dat WHERE id > ?1 ORDER BY id ASC LIMIT 1",nativeQuery = true)
+	Integer getProximo( Integer proximo ); 
+	
+	@Query(value="SELECT Max( id ) FROM activo_dat",nativeQuery = true) 
+	Integer getFinal();
+	
 }
